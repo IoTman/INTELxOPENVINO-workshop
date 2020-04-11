@@ -49,7 +49,7 @@ while True:
         out = np.clip(out * 255, 0, 255)
         out = np.ascontiguousarray(out).astype(np.uint8)
         cv.imshow('img', img)
-        cv.imshow('resized', resized_img)
+        cv.imshow('super resolution', out)
         k = cv.waitKey(30) & 0xff
         if k == 27: # press 'ESC' to quit
                 break
