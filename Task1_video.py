@@ -3,6 +3,8 @@ import cv2 as cv
 from openvino.inference_engine import IENetwork, IECore
 
 
+# Setup network
+net = IENetwork('single-image-super-resolution-1033.xml', 'single-image-super-resolution-1033.bin')
 
 # Read an image
 cap = cv.VideoCapture(0)
@@ -11,8 +13,6 @@ while True:
         inp_h, inp_w = img.shape[0], img.shape[1]
         out_h, out_w = inp_h * 3, inp_w * 3  # Do not change! This is how model works
 
-# Setup network
-        net = IENetwork('single-image-super-resolution-1033.xml', 'single-image-super-resolution-1033.bin')
 
 # Workaround for reshaping bug
         c1 = net.layers['79/Cast_11815_const']

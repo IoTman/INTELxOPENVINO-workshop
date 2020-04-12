@@ -2,17 +2,18 @@ import numpy as np
 import cv2 as cv
 from openvino.inference_engine import IENetwork, IECore
 
+# Setup network
+net = IENetwork('single-image-super-resolution-1033.xml', 'single-image-super-resolution-1033.bin')
 
 
-# Read an image
+
+# Read a video
 cap = cv.VideoCapture('video.mp4')
 while (cap.isOpened):
         ret, img = cap.read()
         inp_h, inp_w = img.shape[0], img.shape[1]
         out_h, out_w = inp_h * 3, inp_w * 3  # Do not change! This is how model works
 
-# Setup network
-        net = IENetwork('single-image-super-resolution-1033.xml', 'single-image-super-resolution-1033.bin')
 
 # Workaround for reshaping bug
         c1 = net.layers['79/Cast_11815_const']
@@ -26,7 +27,7 @@ while (cap.isOpened):
 # Reshape network to specific size
         net.reshape({'0': [1, 3, inp_h, inp_w], '1': [1, 3, out_h, out_w]})
 
-# Load network to device
+#Load network to device
         ie = IECore()
         exec_net = ie.load_network(net, 'CPU')
 
